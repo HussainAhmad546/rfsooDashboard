@@ -68,18 +68,18 @@ const UserProfile = () => {
             <div className='avatar'>
               <Image attrImage={{ className: 'step1', alt: '', src: `${url ? url : require('../../assets/images/user/7.jpg')}` }} />
             </div>
-            {/* <div className='icon-wrapper step2' data-intro='Change Profile image here' style={{border:'1px solid red'}}>
+            <div className='icon-wrapper step2' data-intro='Change Profile image here' style={{border:'1px solid red'}}>
               <i className='icofont icofont-pencil-alt-5' onChange={(e) => readUrl(e)}>
                 <input className='upload' type='file' onChange={(e) => readUrl(e)} />
               </i>
-            </div> */}
-              <div>
+            </div>
+              {/* <div>
             <div className='icon-wrapper step2' data-intro='Change Profile image here'>
-              <i className='icofont icofont-pencil-alt-5' onClick={() => alert("click")}>
+              <i className='icofont icofont-pencil-alt-5' onClick={() => setShowModal(true)}>
 
               </i>
             </div>
-          </div>
+          </div> */}
           <ProfileModal
             showModal={showModal}
             closeModal={() => setShowModal(false)}

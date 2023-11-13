@@ -1,43 +1,55 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useContext , useEffect} from "react";
 import { Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { Btn, H4, P } from "../AbstractElements";
 import { EmailAddress, ForgotPassword, Password, RememberPassword, SignIn } from "../Constant";
-
 import { useNavigate } from "react-router-dom";
-import man from "../assets/images/dashboard/profile.png";
-
 import CustomizerContext from "../_helper/Customizer";
 import OtherWay from "./OtherWay";
 import { ToastContainer, toast } from "react-toastify";
-
+import axios from 'axios';
 const Signin = ({ selected }) => {
-  const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("test123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [togglePassword, setTogglePassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useNavigate();
   const { layoutURL } = useContext(CustomizerContext);
+  const [user, setUser] = useState(null);
 
-  const [value, setValue] = useState(localStorage.getItem("profileURL" || man));
-  const [name, setName] = useState(localStorage.getItem("Name"));
 
   useEffect(() => {
-    localStorage.setItem("profileURL", man);
-    localStorage.setItem("Name", "Emay Walter");
-  }, [value, name]);
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, [setUser]);
 
   const loginAuth = async (e) => {
     e.preventDefault();
-    setValue(man);
-    setName("Emay Walter");
-    if (email === "test@gmail.com" && password === "test123") {
-      localStorage.setItem("login", JSON.stringify(true));
+  
+    try {
+      setLoading(true);
+      console.log('Sending request with data:', { userEmail: email, password: password });
+      const response = await axios.post("http://localhost:8080/api/user/login", {
+        userEmail: email,
+        password: password,
+      });
+  
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+  
       history('/Home');
       toast.success("Successfully logged in!..");
-    } else {
-      toast.error("You enter wrong password or username!..");
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error logging in. Please check your credentials.");
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   return (
     <Fragment>
       <Container fluid={true} className="p-0 login-page">
@@ -50,12 +62,12 @@ const Signin = ({ selected }) => {
                   <P>{"Enter your email & password to login"}</P>
                   <FormGroup>
                     <Label className="col-form-label">{EmailAddress}</Label>
-                    <Input className="form-control" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                    <Input className="form-control" type="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Enter your email" required />
                   </FormGroup>
                   <FormGroup className="position-relative">
                     <Label className="col-form-label">{Password}</Label>
                     <div className="position-relative">
-                      <Input className="form-control" type={togglePassword ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} value={password} />
+                      <Input className="form-control" type={togglePassword ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Enter your password" required />
                       <div className="show-hide" onClick={() => setTogglePassword(!togglePassword)}>
                         <span className={togglePassword ? "" : "show"}></span>
                       </div>
@@ -71,8 +83,9 @@ const Signin = ({ selected }) => {
                     <a className="link" href="forget">
                       {ForgotPassword}
                     </a>
-                    {/* <Btn attrBtn={{  className: "d-block w-100 mt-2 signin-button", onClick: (e) => loginAuth(e) }}>{SignIn}</Btn> */}
-                    <button  className= "d-block w-100 mt-2 signin-button text-white p-1 rounded-top rounded-bottom border-none" onClick= {(e) => loginAuth(e) }>{SignIn}</button>
+                    <button className="d-block w-100 mt-2 signin-button text-white p-1 rounded-top rounded-bottom border-none" onClick={(e) => loginAuth(e)} disabled={loading}>
+                      {loading ? 'Logging in...' : SignIn}
+                    </button>
                   </div>
                   <OtherWay />
                 </Form>
@@ -87,3 +100,4 @@ const Signin = ({ selected }) => {
 };
 
 export default Signin;
+

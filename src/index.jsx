@@ -2,13 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import App from "./App";
+import { UserProvider } from '../src/Auth/UserContext';
 
 import reportWebVitals from "./reportWebVitals";
+
 
 const Root = () => {
   return (
     <div className="App">
+      <UserProvider>
       <App />
+    </UserProvider>
     </div>
   );
 };

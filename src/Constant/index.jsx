@@ -1525,6 +1525,7 @@ export const KoriThomas = "Kori Thomas";
 export const AinChavez = "Ain Chavez";
 export const ViewAll = "View All";
 export const Admin = "Admin";
+export const Member = "Member";
 export const Account = "Account";
 export const Taskboard = "Taskboard";
 

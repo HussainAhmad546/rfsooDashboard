@@ -2,31 +2,41 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FileText, LogIn, Mail, Settings, User } from "react-feather";
 import man from "../../../assets/images/dashboard/profile.png";
-// import { useNavigate } from 'react-router-dom';
-
 import { LI, UL, Image, P } from "../../../AbstractElements";
 import CustomizerContext from "../../../_helper/Customizer";
-import { Account, Admin, Inbox, LogOut, Password, Taskboard } from "../../../Constant";
+import { Account, Admin, Inbox, LogOut, Member, Password, Taskboard } from "../../../Constant";
+import { useUser } from "../../../Auth/UserContext"; // Import the useUser hook
 
 const UserHeader = () => {
   const history = useNavigate();
   const [profile, setProfile] = useState("");
-  const [name, setName] = useState("Emay Walter");
+  const [name, setName] = useState("");
   const { layoutURL } = useContext(CustomizerContext);
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
   const auth0_profile = JSON.parse(localStorage.getItem("auth0_profile"));
+  const { user } = useUser(); // Use the useUser hook to get user details
 
   useEffect(() => {
+    console.log('Signin - user:', user);
     setProfile(localStorage.getItem("profileURL") || man);
-    setName(localStorage.getItem("Name") ? localStorage.getItem("Name") : name);
-  }, []);
+    setName(user ? user.name : name);
+  }, [user, name]);
 
+  // const Logout = () => {
+  //   localStorage.removeItem("profileURL");
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("auth0_profile");
+  //   localStorage.removeItem("user");
+  //   localStorage.setItem("authenticated", false);
+  //   history(`${process.env.PUBLIC_URL}/login`);
+  // };
   const Logout = () => {
-    localStorage.removeItem("profileURL");
+    // Clear user data from local storage
+    console.log('Logging out - removing token and user...');
     localStorage.removeItem("token");
-    localStorage.removeItem("auth0_profile");
-    localStorage.removeItem("Name");
-    localStorage.setItem("authenticated", false);
+    localStorage.removeItem("user");
+  
+    // Redirect to the login page
     history(`${process.env.PUBLIC_URL}/login`);
   };
 
@@ -47,7 +57,15 @@ const UserHeader = () => {
         <div className="media-body">
           <span>{authenticated ? auth0_profile.name : name}</span>
           <P attrPara={{ className: "mb-0 font-roboto" }}>
-            {Admin} <i className="middle fa fa-angle-down"></i>
+            {user && user.isAdmin ? (
+              <>
+                {Admin} <i className="middle fa fa-angle-down"></i>
+              </>
+            ) : (
+              <>
+                {Member} <i className="middle fa fa-angle-down"></i>
+              </>
+            )}
           </P>
         </div>
       </div>
@@ -61,7 +79,6 @@ const UserHeader = () => {
         </LI>
         <LI
           attrLI={{
-            // onClick: () => UserMenuRedirect(`${process.env.PUBLIC_URL}/app/todo-app/todo/${layoutURL}`),
             onClick: () => {
               history('/password');
             },

@@ -14,6 +14,7 @@ import UsersProfileContain from '../Components/UsersProfile';
 import Password from '../Components/Password';
 import Add from '../Components/Dealership/Add';
 import View from '../Components/Dealership/View';
+import FolderComponent from '../Components/FileManager/FolderComponent'
 
 
 // setup fake backend
@@ -40,6 +41,7 @@ const Routers = () => {
 
           <Route  path={'/add_dealer'} element={<Add />} />
           <Route  path={'/view_dealer'} element={<View/>} />
+          <Route path="/folders/:folderId/:folderName" element={<FolderComponent/>} />
 
           </Route>
           </Fragment>

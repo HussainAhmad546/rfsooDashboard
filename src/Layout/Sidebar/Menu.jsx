@@ -5,7 +5,7 @@ export const MENUITEMS = [
     Items: [
          { path: '/Home', icon: "icofont-home", title: "Home", type: "link" },
          { path: '/profile', icon: "icofont-ui-user", title: "Profile", type: "link" },
-         { path: '/password', icon: "icofont-settings-alt", title: "Setting", type: "link" },
+        //  { path: '/password', icon: "icofont-settings-alt", title: "Setting", type: "link" },
     ],
   },
 

@@ -110,7 +110,7 @@ const Sidebar = (props) => {
         onClick={() => {
           closeOverlay();
         }}></div>
-      <div className={`sidebar-wrapper ${toggleIcon ? "close_icon" : ""}`} sidebar-layout="stroke-svg">
+      <div className={`sidebar-wrapper ${toggleIcon ? "close_icon" : ""}`} sidebar-layout="stroke-svg" >
         <SidebarIcon />
         <SidebarLogo />
         {/* sidebartoogle={sidebartoogle} */}

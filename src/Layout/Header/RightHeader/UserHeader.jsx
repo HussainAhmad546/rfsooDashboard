@@ -14,12 +14,13 @@ const UserHeader = () => {
   const { layoutURL } = useContext(CustomizerContext);
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
   const auth0_profile = JSON.parse(localStorage.getItem("auth0_profile"));
-  const { user } = useUser(); // Use the useUser hook to get user details
+  const { user } = useUser();
 
   useEffect(() => {
-    console.log('Signin - user:', user);
+    // console.log('Signin - user:', user);
     setProfile(localStorage.getItem("profileURL") || man);
-    setName(user ? user.name : name);
+    // setName(user ? user.name : name);
+    setName(user?.name); 
   }, [user, name]);
 
   // const Logout = () => {
@@ -31,12 +32,10 @@ const UserHeader = () => {
   //   history(`${process.env.PUBLIC_URL}/login`);
   // };
   const Logout = () => {
-    // Clear user data from local storage
     console.log('Logging out - removing token and user...');
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   
-    // Redirect to the login page
     history(`${process.env.PUBLIC_URL}/login`);
   };
 

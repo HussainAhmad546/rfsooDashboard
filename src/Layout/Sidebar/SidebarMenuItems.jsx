@@ -67,7 +67,7 @@ const SidebarMenuItems = ({ setMainMenu, sidebartoogle, setNavActive, activeClas
                     activeClass(menuItem.active);
                   }}>
                   
-                   <i className= {`icofont  ${menuItem.icon}`  } style={{fontSize : '18px'}}></i> &nbsp; 
+                   <i className= {`icofont  ${menuItem.icon}`  } style={{fontSize : '18px', border:'1px solid red'}}></i> &nbsp; 
                   <span>{(menuItem.title)}</span>
                   {menuItem.badge ? <label className={menuItem.badge}>{menuItem.badgetxt}</label> : ""}
                   <div className="according-menu">{menuItem.active ? <i className="fa fa-angle-down"></i> : <i className="fa fa-angle-right"></i>}</div>

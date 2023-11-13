@@ -7,6 +7,7 @@ import CustomizerContext from "../_helper/Customizer";
 import OtherWay from "./OtherWay";
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
+import image from '../assets/images/logo/logo.png'
 const Signin = ({ selected }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +16,7 @@ const Signin = ({ selected }) => {
   const history = useNavigate();
   const { layoutURL } = useContext(CustomizerContext);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
 
   useEffect(() => {
@@ -38,9 +40,14 @@ const Signin = ({ selected }) => {
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+
+      // Update the user state
+      setUser(user);
+      setToken(token);
   
       history('/Home');
       toast.success("Successfully logged in!..");
+      window.location.reload();
       console.log('Response from server:', response.data);
     } catch (error) {
       console.error(error);
@@ -57,7 +64,12 @@ const Signin = ({ selected }) => {
           <Col xs="12">
             <div className="login-card">
               <div className="login-main login-tab">
+                
                 <Form className="theme-form">
+                  {/* Logo on top */}
+            <div className="text-center mb-1">
+              <img src={image} alt="Logo" height={80}/>
+            </div>
                   <H4>{selected === "simpleLogin" ? "" : "Sign In With Simple Login"}</H4>
                   <P>{"Enter your email & password to login"}</P>
                   <FormGroup>

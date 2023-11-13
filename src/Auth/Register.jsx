@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import image from '../assets/images/logo/logo.png'
 
 const Register = () => {
   const [togglePassword, setTogglePassword] = useState(false);
@@ -50,6 +51,10 @@ const Register = () => {
         <div className='login-main'>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             <Form className='theme-form login-form'>
+              {/* Logo on top */}
+            <div className="text-center mb-1">
+              <img src={image} alt="Logo" height={80}/>
+            </div>
               <h4>Create your account</h4>
               <P>Enter your personal details to create account</P>
               <FormGroup>

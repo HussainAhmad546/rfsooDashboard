@@ -28,11 +28,13 @@ const Signin = ({ selected }) => {
 
   const loginAuth = async (e) => {
     e.preventDefault();
+
+    const backendUrl = 'https://rfsoo-backend.vercel.app';
   
     try {
       setLoading(true);
       console.log('Sending request with data:', { userEmail: email, password: password });
-      const response = await axios.post("http://localhost:8080/api/user/login", {
+      const response = await axios.post(`${backendUrl}/api/user/login`, {
         userEmail: email,
         password: password,
       });

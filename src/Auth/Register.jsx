@@ -20,6 +20,8 @@ const Register = () => {
     lastName: '',
   };
 
+  const backendUrl = 'https://rfsoo-backend.vercel.app';
+
   const validationSchema = Yup.object({
     username: Yup.string().max(10, 'First name should be 10 characters or less.').required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
@@ -34,7 +36,7 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/user/register", values);
+      const response = await axios.post(`${backendUrl}/api/user/register`, values);
       toast.success(response.data.message);
       setSubmitting(false);
       navigate("/login");

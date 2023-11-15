@@ -394,7 +394,7 @@ function App() {
     } catch (error) {
       console.error('Error uploading file:', error);
     } finally {
-      setUploading(false);
+      // setUploading(false);
       setShowUploadModal(false);
     }
   };
@@ -513,6 +513,40 @@ function App() {
             </Modal>
           </div>
         </div>
+        <div className="d-flex flex-column">
+  <div>
+    <button
+      onClick={() => setShowCreateModal(true)}
+      className="btn btn-block"
+      style={{ backgroundColor: '#6b2a7d', color: 'white', boxShadow: '0.5px 2px 10px rgba(107, 46, 122, 0.3)', padding: '5px', borderRadius: '5px' }}
+    >
+      Create a Folder
+    </button>
+    <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+    <Modal.Header closeButton>
+                <Modal.Title>Create a Folder</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <input
+                  type="text"
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  placeholder="Enter folder name"
+                />
+                {creatingFolder && <p>Creating folder...</p>}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => setShowCreateModal(false)}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleCreateFolder} disabled={!newFolderName}>
+                  Create Folder
+                </Button>
+              </Modal.Footer>
+    </Modal>
+  </div>
+</div>
+
       </div>
       {loading ? (
         <Spinner animation="border" role="status">
